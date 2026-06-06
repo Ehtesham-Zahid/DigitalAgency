@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MapPin, Mail, Phone } from "lucide-react";
 
@@ -62,6 +63,8 @@ const Footer = () => {
             <li><a href="#" className="hover:text-white transition-colors">Meet the Team</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
             <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+            <li><Link href="/login" className="hover:text-white transition-colors">Login Page</Link></li>
+            <li><Link href="/admin" className="hover:text-white transition-colors">Admin</Link></li>
           </ul>
         </div>
 
