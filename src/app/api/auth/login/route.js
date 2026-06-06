@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { login } from "@/services/Admin";
 
-// POST /api/auth/login - Authenticate administrator credentials
 export async function POST(req) {
   try {
-    console.log("Inside ")
     const { email, password } = await req.json();
-    console.log(email, password)
     if (!email || !password) {
       return NextResponse.json(
         { error: "Email and password are required." },
