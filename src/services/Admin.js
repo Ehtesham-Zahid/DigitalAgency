@@ -6,41 +6,40 @@ import Admin from "@/models/Admin";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
-export const createAdmin = async (username, password) => {
+export const createAdmin = async (email, password) => {
   try {
     await connectDB();
     
-    const exists = await Admin.findOne({ username });
+    const exists = await Admin.findOne({ email });
     if (exists) {
-      throw new Error("Admin username already exists.");
+      throw new Error("Admin email already exists.");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const admin = new Admin({ username, password: hashedPassword });
-    await admin.save();
+    const admin = await Admin.create({ email, password: hashedPassword });
     
-    return { success: true, username: admin.username };
+    return { success: true, email: admin.email };
   } catch (error) {
     console.error("Error creating admin:", error);
     throw error;
   }
 };
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
   try {
     await connectDB();
     
-    const admin = await Admin.findOne({ username });
+    const admin = await Admin.findOne({ email });
     if (!admin) {
-      throw new Error("Invalid username or password.");
+      throw new Error("Invalid email or password.");
     }
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch) {
-      throw new Error("Invalid username or password.");
+      throw new Error("Invalid email or password.");
     }
     const token = jwt.sign(
-      { id: admin._id, username: admin.username },
+      { id: admin._id, email: admin.email },
       JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -53,7 +52,7 @@ export const login = async (username, password) => {
       path: "/"
     });
 
-    return { success: true, username: admin.username };
+    return { success: true, email: admin.email };
   } catch (error) {
     console.error("Error logging in admin:", error);
     throw error;

@@ -25,7 +25,19 @@ export async function POST(req) {
     }
 
     const data = await req.json();
-    const service = await createService(data, true);
+    if (!data.title || !data.description || !data.icon) {
+      return NextResponse.json(
+        { error: "Title, description, and icon fields are required." },
+        { status: 400 }
+      );
+    }
+
+    const service = await createService({
+      title: data.title,
+      description: data.description,
+      icon: data.icon
+    }, true);
+    
     return NextResponse.json(service, { status: 201 });
   } catch (error) {
     return NextResponse.json(

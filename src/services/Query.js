@@ -5,8 +5,7 @@ import Query from "@/models/Query";
 export const createQuery = async (data) => {
   try {
     await connectDB();
-    const query = new Query(data);
-    await query.save();
+    const query = await Query.create(data);
     return query;
   } catch (error) {
     console.error("Error creating query:", error);

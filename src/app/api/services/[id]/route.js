@@ -39,7 +39,19 @@ export async function PUT(req, { params }) {
 
     const { id } = await params;
     const data = await req.json();
-    const service = await updateServiceById(id, data, true);
+    if (!data.title || !data.description || !data.icon) {
+      return NextResponse.json(
+        { error: "Title, description, and icon fields are required." },
+        { status: 400 }
+      );
+    }
+
+    const service = await updateServiceById(id, {
+      title: data.title,
+      description: data.description,
+      icon: data.icon
+    }, true);
+
     if (!service) {
       return NextResponse.json({ error: "Service not found." }, { status: 404 });
     }

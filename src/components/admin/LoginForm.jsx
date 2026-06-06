@@ -2,30 +2,43 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    // Simulate login API call
-    setTimeout(() => {
-      setLoading(false);
-      // Mock validation
-      if (email === "admin@example.com" && password === "admin123") {
-        alert("Login successful!");
-      } else {
-        setError("Invalid email or password. Try admin@example.com / admin123");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Login failed. Please check credentials.");
       }
-    }, 1500);
+
+      router.push("/admin");
+    } catch (err) {
+      console.error("Login submission error:", err);
+      setError(err.message);
+      setLoading(false);
+    }
   };
 
   return (

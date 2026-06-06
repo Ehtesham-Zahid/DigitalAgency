@@ -8,8 +8,7 @@ export const createService = async (data, isAdmin = false) => {
   }
   try {
     await connectDB();
-    const service = new Service(data);
-    await service.save();
+    const service = await Service.create(data);
     return service;
   } catch (error) {
     console.error("Error creating service:", error);
@@ -63,6 +62,7 @@ export const getAllServices = async () => {
   try {
     await connectDB();
     const services = await Service.find({});
+    console.log(services)
     return services;
   } catch (error) {
     console.error("Error getting all services:", error);

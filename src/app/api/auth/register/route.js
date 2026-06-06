@@ -3,15 +3,15 @@ import { createAdmin } from "@/services/Admin";
 
 export async function POST(req) {
   try {
-    const { username, password } = await req.json();
-    if (!username || !password) {
+    const { email, password } = await req.json();
+    if (!email || !password) {
       return NextResponse.json(
-        { error: "Username and password are required." },
+        { error: "Email and password are required." },
         { status: 400 }
       );
     }
 
-    const result = await createAdmin(username, password);
+    const result = await createAdmin(email, password);
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(

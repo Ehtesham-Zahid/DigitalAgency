@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -14,13 +14,30 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar
 } from "@/components/ui/sidebar";
 import { LayoutGrid, MessageSquare, Globe, LogOut } from "lucide-react";
 
 export function AppSidebar() {
+  const router = useRouter();
   const pathname = usePathname();
   const { toggleSidebar } = useSidebar();
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout", {
+        method: "POST"
+      });
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        console.error("Logout request failed");
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   const menuItems = [
     {
@@ -41,9 +58,10 @@ export function AppSidebar() {
         <Link href="/admin" className="flex items-center gap-2 font-black text-[#1e2547] tracking-tight group-data-[collapsible=icon]:hidden">
           <span>DIGITAL<span className="text-[#6878d6]">ADMIN</span></span>
         </Link>
-        <div className="h-6 w-6 rounded bg-[#6878d6] flex items-center justify-center text-white font-bold text-xs md:hidden group-data-[collapsible=icon]:flex mx-auto shrink-0 select-none">
+        <div className="h-6 w-6 rounded bg-[#6878d6] flex items-center justify-center text-white font-bold text-xs hidden group-data-[collapsible=icon]:flex mx-auto shrink-0 select-none">
           D
         </div>
+        <SidebarTrigger className="text-gray-500 hover:text-gray-900 cursor-pointer shrink-0" />
       </SidebarHeader>
 
       <SidebarContent className="py-4">
@@ -84,27 +102,12 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              asChild
-              tooltip="View Live Site"
-              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all font-semibold cursor-pointer"
-            >
-              <Link href="/" className="flex items-center gap-3 w-full">
-                <Globe className="h-4.5 w-4.5 text-gray-400" />
-                <span className="group-data-[collapsible=icon]:hidden">View Site</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
               tooltip="Logout"
+              onClick={handleLogout}
               className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 hover:text-red-700 transition-all font-semibold cursor-pointer"
             >
-              <Link href="/login" className="flex items-center gap-3 w-full">
-                <LogOut className="h-4.5 w-4.5 text-red-400" />
-                <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-              </Link>
+              <LogOut className="h-4.5 w-4.5 text-red-400" />
+              <span className="group-data-[collapsible=icon]:hidden">Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
