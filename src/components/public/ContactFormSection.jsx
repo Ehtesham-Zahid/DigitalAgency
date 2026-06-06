@@ -4,26 +4,21 @@ import React, { useState } from "react";
 import { MapPin, Mail, Phone, Smartphone } from "lucide-react";
 
 const ContactFormSection = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: ""
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Simulate submission state
-    console.log("Contact request submitted:", formData);
+    console.log("Contact request submitted:", { name, email, message });
     setSubmitted(true);
-    setFormData({ name: "", email: "", message: "" });
+    setName("");
+    setEmail("");
+    setMessage("");
     // Reset success message after 5 seconds
     setTimeout(() => setSubmitted(false), 5000);
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -31,7 +26,6 @@ const ContactFormSection = () => {
       <div className="w-11/12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column - Request Free Consultation Card & Map */}
           <div className="lg:col-span-8 flex flex-col w-full">
             <h2 className="text-[#1e2547] text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">
               Request Free Consultation
@@ -39,7 +33,6 @@ const ContactFormSection = () => {
             
             <div className="bg-white rounded-xl shadow-[0_10px_35px_rgba(0,0,0,0.03)] border border-gray-100/80 overflow-hidden grid grid-cols-1 md:grid-cols-2">
               
-              {/* Form Side */}
               <form onSubmit={handleSubmit} className="p-8 sm:p-10 flex flex-col justify-between gap-6">
                 <div className="flex flex-col gap-5">
                   {submitted && (
@@ -52,8 +45,8 @@ const ContactFormSection = () => {
                     <input
                       type="text"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       placeholder="Your Name *"
                       required
                       className="w-full bg-[#f8fafc] border border-gray-200 rounded-lg py-3.5 px-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#6878d6] focus:bg-white transition-all duration-200 text-sm"
@@ -64,8 +57,8 @@ const ContactFormSection = () => {
                     <input
                       type="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Your Email *"
                       required
                       className="w-full bg-[#f8fafc] border border-gray-200 rounded-lg py-3.5 px-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#6878d6] focus:bg-white transition-all duration-200 text-sm"
@@ -75,8 +68,8 @@ const ContactFormSection = () => {
                   <div>
                     <textarea
                       name="message"
-                      value={formData.message}
-                      onChange={handleChange}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
                       placeholder="Your Message"
                       rows={5}
                       className="w-full bg-[#f8fafc] border border-gray-200 rounded-lg py-3.5 px-4 text-gray-700 placeholder-gray-400 focus:outline-none focus:border-[#6878d6] focus:bg-white transition-all duration-200 text-sm resize-none"
@@ -92,7 +85,6 @@ const ContactFormSection = () => {
                 </button>
               </form>
 
-              {/* Map Side */}
               <div className="w-full h-full min-h-[350px] md:min-h-full relative bg-slate-100">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100000!2d-77.0369!3d38.9072!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b7c6de5af6e45b%3A0xc2524522d4885d2a!2sWashington%2C%20DC!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
