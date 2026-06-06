@@ -1,7 +1,6 @@
 import { connectDB } from "@/lib/db";
 import Service from "@/models/Service";
 
-// Create a new service (Admin only)
 export const createService = async (data, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can create services.");
@@ -15,7 +14,6 @@ export const createService = async (data, isAdmin = false) => {
     throw error;
   }
 };
-// Get a single service by ID (Admin only)
 export const getServiceById = async (id, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can view service details.");
@@ -29,7 +27,6 @@ export const getServiceById = async (id, isAdmin = false) => {
     throw error;
   }
 };
-// Delete a service by ID (Admin only)
 export const deleteServiceById = async (id, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can delete services.");
@@ -43,7 +40,6 @@ export const deleteServiceById = async (id, isAdmin = false) => {
     throw error;
   }
 };
-// Update a service by ID (Admin only)
 export const updateServiceById = async (id, data, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can update services.");
@@ -57,12 +53,10 @@ export const updateServiceById = async (id, data, isAdmin = false) => {
     throw error;
   }
 };
-// Get all services
 export const getAllServices = async () => {
   try {
     await connectDB();
     const services = await Service.find({});
-    console.log(services)
     return services;
   } catch (error) {
     console.error("Error getting all services:", error);

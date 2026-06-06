@@ -44,7 +44,6 @@ const LoginForm = () => {
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 p-8 sm:p-10">
       <div className="flex flex-col items-center text-center mb-8">
-        {/* Brand name */}
         <Link href="/" className="text-2xl font-black text-[#1e2547] tracking-tight hover:opacity-90 transition-opacity">
           DIGITAL<span className="text-[#6878d6]">AGENCY</span>
         </Link>

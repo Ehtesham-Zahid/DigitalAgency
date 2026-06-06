@@ -1,7 +1,6 @@
 import { connectDB } from "@/lib/db";
 import Query from "@/models/Query";
 
-// Create a new contact query (Public access)
 export const createQuery = async (data) => {
   try {
     await connectDB();
@@ -13,7 +12,6 @@ export const createQuery = async (data) => {
   }
 };
 
-// Get a single query by ID (Admin only)
 export const getQueryById = async (id, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can access queries.");
@@ -28,7 +26,6 @@ export const getQueryById = async (id, isAdmin = false) => {
   }
 };
 
-// Delete a query by ID (Admin only)
 export const deleteQueryById = async (id, isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can delete queries.");
@@ -43,7 +40,6 @@ export const deleteQueryById = async (id, isAdmin = false) => {
   }
 };
 
-// Get all queries (Admin only)
 export const getAllQueries = async (isAdmin = false) => {
   if (!isAdmin) {
     throw new Error("Unauthorized: Only administrators can view all queries.");

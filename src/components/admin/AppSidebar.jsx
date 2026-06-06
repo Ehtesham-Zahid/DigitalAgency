@@ -86,7 +86,7 @@ export function AppSidebar() {
                       }`}
                     >
                       <Link href={item.url} className="flex items-center gap-3 w-full">
-                        <item.icon className={`h-4.5 w-4.5 ${isActive ? "text-white" : "text-gray-400"}`} />
+                        <item.icon className={`h-4.5 w-4.5 text-gray-400`} />
                         <span className="group-data-[collapsible=icon]:hidden">{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
